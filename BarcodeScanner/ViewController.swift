@@ -17,16 +17,20 @@ class ViewController: UIViewController, BarcodeScannerDelegate {
     @IBOutlet var barcodeContents: UILabel!
     @IBOutlet var captureButton: UIButton!
     
+    private var toggleStarted : Bool = false
+    
     @IBAction func toggleCapture(sender: AnyObject) {
         
         setBarcodeResult("", content: "")
         
-        if(scanner.running){
-            scanner.stop()
+        toggleStarted = !toggleStarted
+        
+        if(toggleStarted){
+            scanner.start()
             
             
         } else {
-            scanner.start()
+            scanner.stop()
         }
     }
     
@@ -43,7 +47,7 @@ class ViewController: UIViewController, BarcodeScannerDelegate {
     
  
     
-    func  barcodeScannerBarcodeDecoded(barcode : Barcode){
+    func  barcodeScanner(decoded barcode : Barcode){
         
         setBarcodeResult(barcode.type, content: barcode.value)
         

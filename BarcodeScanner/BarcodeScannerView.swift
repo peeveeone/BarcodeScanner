@@ -82,7 +82,7 @@ internal class BarcodeScannerView : UIView, BarcodeScanner, BarcodeScannerDelega
         }
     }
     
-    func barcodeScannerBarcodeDecoded(barcode : Barcode){
+    func barcodeScanner(decoded barcode : Barcode){
         
         if(_registerBarcode) {
             
@@ -91,7 +91,7 @@ internal class BarcodeScannerView : UIView, BarcodeScanner, BarcodeScannerDelega
             Dispatch.async({
                 
                 self.showDecodeBounds(barcode.bounds, color: UIColor.redColor().CGColor)
-                self.delegate?.barcodeScannerBarcodeDecoded(barcode)
+                self.delegate?.barcodeScanner( decoded: barcode)
                 
             })
             

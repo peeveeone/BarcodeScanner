@@ -11,7 +11,7 @@ import UIKit
 
 protocol BarcodeScannerDelegate {
     
-    func barcodeScannerBarcodeDecoded(barcode : Barcode)
+    func barcodeScanner(decoded barcode : Barcode)
 }
 
 

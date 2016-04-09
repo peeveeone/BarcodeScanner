@@ -9,6 +9,15 @@
 import Foundation
 import AVFoundation
 
+protocol BarcodeScanner {
+    
+    func start()
+    func stop()
+    var running : Bool {get}
+    var delegate : BarcodeScannerDelegate? {get set}
+    
+}
+
 class BarcodeScannerImpl : NSObject, BarcodeScanner, AVCaptureMetadataOutputObjectsDelegate  {
     
      var delegate : BarcodeScannerDelegate?
@@ -25,7 +34,6 @@ class BarcodeScannerImpl : NSObject, BarcodeScanner, AVCaptureMetadataOutputObje
  
 
     override convenience init() {
-        
         
         let supportedBarcodeTypes =
             [
@@ -58,7 +66,9 @@ class BarcodeScannerImpl : NSObject, BarcodeScanner, AVCaptureMetadataOutputObje
             
         } else {
             
-            // throw?
+            // Handle in some way, notify user?
+            
+            return
         }
         
         _metaDataOutput.setMetadataObjectsDelegate(self, queue: dispatch_get_main_queue())
@@ -79,11 +89,10 @@ class BarcodeScannerImpl : NSObject, BarcodeScanner, AVCaptureMetadataOutputObje
             
             let decodeBounds = previewLayer.transformedMetadataObjectForMetadataObject(barcode).bounds
             
-            delegate?.barcodeScannerBarcodeDecoded(Barcode(type: barcode.type, value: barcode.stringValue, bounds: decodeBounds))
+            delegate?.barcodeScanner(decoded: Barcode(type: barcode.type, value: barcode.stringValue, bounds: decodeBounds))
         }
     }
-    
-    
+
     
      func start() {
         
@@ -110,12 +119,5 @@ class BarcodeScannerImpl : NSObject, BarcodeScanner, AVCaptureMetadataOutputObje
     
 }
 
-protocol BarcodeScanner {
-    
-    func start()
-    func stop()
-    var running : Bool {get}
-    var delegate : BarcodeScannerDelegate? {get set}
 
-}
 
